@@ -1,0 +1,80 @@
+@media only screen and (min-width: 960px)  {
+  .main {
+    margin: 0 20%;
+  }
+}
+@media only screen and (max-width: 959px) {
+  .main {
+    margin: 0;
+  }
+}
+.header {
+  padding: 5px;
+}
+.header h1 {
+  margin: 0px;
+  text-align: center;
+}
+.header .settings {
+  float: right;
+}
+.header .settings img {
+  width: 40px;
+  height: 40px;
+  -webkit-transition: -webkit-transform 0.8s ease-in-out;
+  -ms-transition: -ms-transform 0.8s ease-in-out;
+  transition: transform 0.8s ease-in-out;
+}
+.header .settings img:hover {
+  transform: rotate(360deg);
+  -ms-transform: rotate(360deg);
+  -webkit-transform: rotate(360deg);
+}
+.list-item {
+  cursor: pointer;
+  margin: 5px;
+  background-color: lightskyblue;
+  padding: 5px;
+}
+.list-item:hover {
+  background-color: #6ec0ff;
+}
+.list-item .edit {
+  height: 73px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.list-item .edit input {
+  float: left;
+  height: 40px;
+  direction: rtl;
+}
+.list-item .edit div {
+  color: white;
+  float: left;
+  margin-left: 10px;
+}
+.list-item .edit div:hover {
+  color: crimson;
+}
+.list-item .view {
+  flex-direction: column;
+  display: flex;
+  height: 73px;
+}
+.list-item .view h3 {
+  text-align: center;
+  color: white;
+  display: block;
+  margin: 14px 0px;
+}
+.kid-btn {
+  border: 1px solid #88A5DC;
+  padding: 0px 5px;
+  color: white;
+}
+.kid-btn:hover {
+  background-color: lightblue;
+  color: crimson;
+}

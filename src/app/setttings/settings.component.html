@@ -1,0 +1,29 @@
+<div>
+  <h1>Settings</h1>
+  <div>
+    <h4>Debug Mode</h4>
+    <input [(ngModel)]="settings.debugMode" >
+  </div>
+
+  <div>
+    <h4>Holidays</h4>
+    <input [(ngModel)]="settings.holidays" >
+  </div>
+
+  <div>
+    <h4>Congrats Files</h4>
+    <input [(ngModel)]="settings.congratsFiles" >
+  </div>
+
+  <div>
+    <h4>Stop SMS</h4>
+    <input [(ngModel)]="settings.stopSMS" >
+  </div>
+
+  <div>
+    <h4>Restart</h4>
+    <input [(ngModel)]="settings.restart" >
+  </div>
+
+  <button (click)="save()" >Save</button>
+</div>

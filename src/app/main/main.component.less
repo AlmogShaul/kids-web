@@ -1,0 +1,90 @@
+@desktop:   ~"only screen and (min-width: 960px) ";
+@tablet:    ~"only screen and (max-width: 959px)";
+
+@media @desktop {
+  .main{
+    margin: 0 20%;
+  }
+}
+
+@media @tablet {
+  .main{
+    margin: 0;
+  }
+}
+
+
+.header {
+  padding: 5px;
+  h1 {
+    margin: 0px;
+    text-align: center;
+  }
+  .settings{
+    float: right;
+    img{
+      width: 40px;
+      height: 40px;
+      -webkit-transition: -webkit-transform .8s ease-in-out;
+      -ms-transition: -ms-transform .8s ease-in-out;
+      transition: transform .8s ease-in-out;
+    }
+    img:hover{
+      transform:rotate(360deg);
+      -ms-transform:rotate(360deg);
+      -webkit-transform:rotate(360deg);
+    }
+  }
+}
+.list-item{
+  cursor:pointer;
+  &:hover{
+    background-color: #6ec0ff;
+  }
+  margin: 5px;
+  background-color: lightskyblue;
+  padding: 5px;
+
+  .edit{
+    height: 73px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    input{
+      float:left;
+      height: 40px;
+      direction: rtl;
+    }
+    div{
+      color:white;
+      float:left;
+      margin-left:10px;
+      &:hover{
+        color:crimson;
+      }
+    }
+  }
+  .view{
+    flex-direction: column;
+    display: flex;
+    height: 73px;
+
+      h3{
+        text-align: center;
+        color:white;
+        display: block;
+        margin: 14px 0px;
+    }
+  }
+
+}
+
+.kid-btn{
+  border:1px solid #88A5DC;
+  padding: 0px 5px;
+  &:hover{
+    background-color: lightblue;
+    color:crimson;
+  }
+  color: white;
+}

@@ -1,0 +1,9 @@
+.section {
+  margin: 10px;
+}
+.section input {
+  width: 80%;
+}
+.save-btn {
+  margin-top: 20px;
+}

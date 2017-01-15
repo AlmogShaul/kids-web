@@ -1,0 +1,36 @@
+<div style="direction: rtl">
+  <h1>פרטי ילד/ה</h1>
+  <div class="section">
+    <p>שם</p>
+    <input type="text" [(ngModel)]="kid&&kid.name">
+  </div>
+  <div class="section">
+   <img class="kid_img" src="{{kid?.image}}">
+  </div>
+  <div class="section">
+    <input type="file" (change)="picChosen($event)"/>
+  </div>
+  <div class="section">
+    <p>שם האב</p>
+    <input type="text" [(ngModel)]="kid&&kid.father">
+  </div>
+  <div class="section">
+    <p>שם האם</p>
+    <input type="text" [(ngModel)]="kid&&kid.mother">
+  </div>
+  <div class="section">
+    <p>טלפון האב</p>
+    <input type="text" [(ngModel)]="kid&&kid.fatherPhone">
+  </div>
+  <div class="section">
+    <p>טלפון האם</p>
+    <input type="text" [(ngModel)]="kid&&kid.motherPhone">
+  </div>
+  <div class="section">
+    <p>תזכורת</p>
+    <input type="text" [(ngModel)]="kid&&kid.reminderTime">
+  </div>
+  <button class="save-btn" md-raised-button color="primary" (click)="save()">שמור</button>
+
+
+</div>
