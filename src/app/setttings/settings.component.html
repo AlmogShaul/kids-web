@@ -1,29 +1,52 @@
 <div>
   <h1>Settings</h1>
   <div>
-    <h4>Debug Mode</h4>
-    <input [(ngModel)]="settings.debugMode" >
+    <md-input-container>
+      <input md-input placeholder="Debug Mode" [(ngModel)]="settings.debugMode" >
+    </md-input-container>
   </div>
 
   <div>
-    <h4>Holidays</h4>
-    <input [(ngModel)]="settings.holidays" >
+    <md-input-container>
+      <input md-input placeholder="Stop SMS" [(ngModel)]="settings.stopSMS" >
+    </md-input-container>
   </div>
 
   <div>
-    <h4>Congrats Files</h4>
-    <input [(ngModel)]="settings.congratsFiles" >
+    <md-input-container>
+      <input md-input placeholder="Restart" [(ngModel)]="settings.restart" >
+    </md-input-container>
   </div>
 
-  <div>
-    <h4>Stop SMS</h4>
-    <input [(ngModel)]="settings.stopSMS" >
+  <div class="list-container">
+    <div class="header">
+      <h4>Holidays</h4>
+    </div>
+      <div class="list-item" *ngFor="let item of settings.holidays; let i=index">
+        {{item}}
+      </div>
+    <div class="footer">
+      <input #newHoliday >
+      <div (click)="addHoliday(newHoliday.value)">Add</div>
+    </div>
   </div>
 
-  <div>
-    <h4>Restart</h4>
-    <input [(ngModel)]="settings.restart" >
+  <div class="list-container">
+    <div class="header">
+      <h4>Congrats Files</h4>
+    </div>
+    <div class="list-item" *ngFor="let item of settings.congratsFiles; let i=index">
+      {{item}}
+    </div>
+    <div class="footer">
+      <input #newFile >
+      <div (click)="addFile(newFile.value)">Add</div>
+    </div>
   </div>
+
+
+
+
 
   <button (click)="save()" >Save</button>
 </div>

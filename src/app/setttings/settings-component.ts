@@ -1,5 +1,7 @@
 import {Component} from "@angular/core";
 import {FirebaseService} from "../services/firebase.service";
+import {DateFormatter} from "@angular/common/src/pipes/intl";
+import {DatePipe} from "@angular/common";
 /**
  * Created by shaul.almog on 15/01/2017.
  */
@@ -13,7 +15,6 @@ import {FirebaseService} from "../services/firebase.service";
 })
 export class SettingsComponent{
 
-
   settings:any;
   constructor(private firebase: FirebaseService) {
     this.settings = {};
@@ -21,8 +22,12 @@ export class SettingsComponent{
   }
 
   public getSettings(){
-    this.firebase.getSettingsObservable().subscribe((result)=>{
-      this.settings = result;
+    this.firebase.getSettingsObservable().subscribe((result:any)=>{
+      this.settings.debugMode = result.debugMode == "true" ? true : false;
+      this.settings.restart = result.restart == "true" ? true : false;
+      this.settings.stopSMS = result.stopSMS== "true" ? true : false;
+      this.settings.holidays = result.holidays.split(';');
+      this.settings.congratsFiles = result.congratsFiles.split(';');
     });
     }
 
@@ -33,11 +38,20 @@ export class SettingsComponent{
   private getObjToSave() {
     return {debugMode:this.settings.debugMode,
             restart:this.settings.restart,
-            holidays:this.settings.holidays,
-            congratsFiles:this.settings.congratsFiles,
+            holidays:this.settings.holidays.join(';'),
+            congratsFiles:this.settings.congratsFiles.join(';'),
             stopSMS:this.settings.stopSMS};
 
   }
+
+  addHoliday(val:any){
+    this.settings.holidays.push(val);
+  }
+
+  addFile(val:any){
+  this.settings.congratsFiles.push(val);
+  }
+
 
   public save(){
     this.updateSettings();

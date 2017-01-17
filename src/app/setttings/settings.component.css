@@ -1,3 +1,46 @@
 button {
   margin: 10px;
 }
+.list-container {
+  margin: 10px 0px;
+  overflow: auto;
+  max-height: 500px;
+  border: 1px solid lightgray;
+  width: 200px;
+}
+.list-container .header {
+  height: 30px;
+  border-bottom: 1px solid lightgray;
+}
+.list-container .header > h4 {
+  margin: 5px;
+  float: left;
+}
+.list-container .header > div {
+  padding: 5px;
+  float: right;
+  cursor: pointer;
+}
+.list-container .footer {
+  height: 20px;
+}
+.list-container .footer input {
+  width: 100px;
+  float: left;
+}
+.list-container .footer div {
+  cursor: pointer;
+  padding: 0px 5px;
+  border: 1px solid gray;
+  float: left;
+}
+.list-container .footer div:hover {
+  background-color: lightgray;
+}
+.list-item {
+  cursor: pointer;
+  padding: 3px 0px;
+}
+.list-item:hover {
+  background-color: lightgray;
+}

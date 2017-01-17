@@ -1,3 +1,51 @@
 button{
   margin: 10px;
 }
+
+.list-container{
+  margin: 10px 0px;
+  overflow: auto;
+  max-height: 500px;
+  border: 1px solid lightgray;
+  width: 200px;
+  .header{
+    height: 30px;
+    border-bottom: 1px solid lightgray;
+    >h4{
+      margin: 5px;
+      float:left;
+    }
+    >div{
+      padding: 5px;
+      float:right;
+      cursor: pointer;
+    }
+  }
+
+  .footer{
+    height: 20px;
+    input{
+      width: 100px;
+      float:left;
+    }
+    div {
+      &:hover{
+        background-color: lightgray;
+      }
+      cursor: pointer;
+      padding: 0px 5px;
+      border: 1px solid gray;
+      float:left;
+    }
+  }
+
+}
+
+.list-item{
+  cursor: pointer;
+  padding: 3px 0px;
+  &:hover{
+    background-color: lightgray;
+  }
+
+}
