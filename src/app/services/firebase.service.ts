@@ -26,6 +26,10 @@ export class FirebaseService {
     });
   }
 
+  public refresh(){
+    this.init();
+  }
+
   constructor(private firebase: AngularFire,@Inject(FirebaseApp) private firebaseApp: any) {
     this.kidsObservable = this.firebase.database.list('/kids');
     this.kindergardenObservable = this.firebase.database.list('/kindergardens');
@@ -45,20 +49,25 @@ export class FirebaseService {
     return this.kids;
   }
 
-  public addKid(kid: any,kindergardenId:string) {
-    this.kidsObservable.push(kid).then((resolve)=>{
-      kid.$key = resolve.key;
-      let data = this.getKindergarden(kindergardenId).kids;
-      if(!data) data = {};
-      data[kid.$key] = true;
-      this.kindergardenObservable.update(kindergardenId,{kids:data}).catch((c)=>{
-        console.log(c);
-      });
+  public addKid(kid: any,kindergardenId:string) :Promise<void>{
+    return new Promise((res,reject)=>{
 
+      kid.image = '';
+      this.kidsObservable.push(kid).then((resolve)=>{
+        kid.$key = resolve.key;
+        let data = this.getKindergarden(kindergardenId).kids;
+        if(!data) data = {};
+        data[kid.$key] = true;
+        this.kindergardenObservable.update(kindergardenId,{kids:data}).then(()=>{
+          res();
+        });
+
+      });
     });
+
   }
 
-  public updateKid(kid: any) {
+  public updateKid(kid: any) :firebase.Promise<void> {
     let data : any = {};
     data.name = kid.name;
     data.arrived = kid.arrived;
@@ -67,7 +76,7 @@ export class FirebaseService {
     data.fatherPhone = kid.fatherPhone;
     data.motherPhone = kid.motherPhone;
     data.reminderTime = kid.reminderTime;
-    this.kidsObservable.update(kid.$key, data);
+    return this.kidsObservable.update(kid.$key, data);
   }
 
   public getKindergardens(): any[] {
@@ -106,7 +115,7 @@ export class FirebaseService {
     var mountainsRef = storageRef.child(kid.$key + '.png');
     mountainsRef.getDownloadURL().then( (url) => {
       kid.image = url;
-      console.log(kid.name + " image:  " + kid.iamge);
+      console.log(kid.name + " image:  " + kid.image);
     }).catch((error) => {
       if (error)
         console.log(kid.name + 'error: ' + error.message);
@@ -117,7 +126,7 @@ export class FirebaseService {
   }
 
   updateKindergarden(item:any){
-    this.kindergardenObservable.update(item.$key,{phone:item.phone,name:item.name});
+    this.kindergardenObservable.update(item.$key,{phone:item.phone,name:item.name,simSerialNumber:item.simSerialNumber});
   }
 
   removeKidFromKindergarden(kidId:string,kindergardenId:string){

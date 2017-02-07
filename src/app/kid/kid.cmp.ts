@@ -29,21 +29,20 @@ export class KidComponent {
         });
       }
       else{
-        this.kid = {name:'',father:'',mother:'',fatherPhone:'',motherPhone:'',arrived:false};
+        this.kid = {name:'',father:'',mother:'',fatherPhone:'',motherPhone:'',arrived:false,reminderTime:'10:00'};
       }
 
     });
   }
 
+  byteArrayOfSelectedPic = null;
   picChosen (data) {
     let files : any[]= data.currentTarget.files;
     for (var i = 0; i < files.length; i++) {
       var reader = new FileReader();
       reader.addEventListener('load', (result) => {
         var target:any = result.target;
-        var byteArray = new Uint8Array(target.result);
-        this.firebaseService.saveKidPic(byteArray, this.kid.$key + '.png');
-        this.firebaseService.getKidPic(this.kid);
+        this.byteArrayOfSelectedPic = new Uint8Array(target.result);
       });
       reader.readAsArrayBuffer(files[i]);
     }
@@ -52,10 +51,14 @@ export class KidComponent {
 
   private save(){
     if(this.kid.$key)
-      this.firebaseService.updateKid(this.kid);
+      this.firebaseService.updateKid(this.kid).then(()=>{
+        this.firebaseService.saveKidPic(this.byteArrayOfSelectedPic, this.kid.$key + '.png');
+      });
     else {
       this.kid.arrived = false;
-      this.firebaseService.addKid(this.kid,this.kindergardenId);
+      this.firebaseService.addKid(this.kid,this.kindergardenId).then(()=>{
+        this.firebaseService.saveKidPic(this.byteArrayOfSelectedPic, this.kid.$key + '.png');
+      });
     }
     this.location.back();
   }

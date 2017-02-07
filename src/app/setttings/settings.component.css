@@ -38,9 +38,22 @@ button {
   background-color: lightgray;
 }
 .list-item {
+  display: flex;
   cursor: pointer;
   padding: 3px 0px;
 }
 .list-item:hover {
   background-color: lightgray;
+}
+.list-item:hover > div {
+  opacity: 1;
+}
+.list-item > span {
+  align-self: flex-start;
+  flex-grow: 1;
+}
+.list-item > div {
+  opacity: 0;
+  margin-right: 5px;
+  align-self: flex-start;
 }

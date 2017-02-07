@@ -18,12 +18,20 @@
     </md-input-container>
   </div>
 
+  <div>
+    <md-input-container>
+      <input md-input placeholder="Alert Message" [(ngModel)]="settings.notifyMessage" >
+    </md-input-container>
+  </div>
+
+
   <div class="list-container">
     <div class="header">
       <h4>Holidays</h4>
     </div>
       <div class="list-item" *ngFor="let item of settings.holidays; let i=index">
-        {{item}}
+        <span>{{item}}</span>
+        <div (click)="deleteHoliday(item)">X</div>
       </div>
     <div class="footer">
       <input #newHoliday >
@@ -36,7 +44,8 @@
       <h4>Congrats Files</h4>
     </div>
     <div class="list-item" *ngFor="let item of settings.congratsFiles; let i=index">
-      {{item}}
+      <span>{{item}}</span>
+      <div (click)="deleteCongratFile(item)">X</div>
     </div>
     <div class="footer">
       <input #newFile >

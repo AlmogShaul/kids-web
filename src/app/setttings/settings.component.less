@@ -42,10 +42,23 @@ button{
 }
 
 .list-item{
+  display: flex;
   cursor: pointer;
   padding: 3px 0px;
   &:hover{
     background-color: lightgray;
+    >div{
+      opacity: 1;
+    }
+  }
+  >span{
+    align-self: flex-start;
+    flex-grow: 1;
+  }
+  >div{
+    opacity: 0;
+    margin-right: 5px;
+    align-self: flex-start;
   }
 
 }

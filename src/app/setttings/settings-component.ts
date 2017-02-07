@@ -23,6 +23,7 @@ export class SettingsComponent{
 
   public getSettings(){
     this.firebase.getSettingsObservable().subscribe((result:any)=>{
+      this.settings.notifyMessage = result.notifyMessage;
       this.settings.debugMode = result.debugMode == "true" ? true : false;
       this.settings.restart = result.restart == "true" ? true : false;
       this.settings.stopSMS = result.stopSMS== "true" ? true : false;
@@ -36,11 +37,12 @@ export class SettingsComponent{
   }
 
   private getObjToSave() {
-    return {debugMode:this.settings.debugMode,
-            restart:this.settings.restart,
+    return {debugMode:this.settings.debugMode.toString(),
+            restart:this.settings.restart.toString(),
+            notifyMessage:this.settings.notifyMessage,
             holidays:this.settings.holidays.join(';'),
             congratsFiles:this.settings.congratsFiles.join(';'),
-            stopSMS:this.settings.stopSMS};
+            stopSMS:this.settings.stopSMS.toString()};
 
   }
 
@@ -52,6 +54,15 @@ export class SettingsComponent{
   this.settings.congratsFiles.push(val);
   }
 
+  deleteHoliday(val:any) {
+    let index = this.settings.holidays.indexOf(val);
+    this.settings.holidays.splice(index,1);
+  }
+
+  deleteCongratFile(val:any) {
+    let index = this.settings.congratsFiles.indexOf(val);
+    this.settings.congratsFiles.splice(index,1);
+  }
 
   public save(){
     this.updateSettings();

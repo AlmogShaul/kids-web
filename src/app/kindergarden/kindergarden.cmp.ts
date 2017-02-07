@@ -21,6 +21,7 @@ export class KindergardenComponent {
   }
 
   ngOnInit() {
+      this.firebase.refresh();
       this.route.params.forEach((params: Params) => {
           let kindergardenId = params['id'];
           if (kindergardenId !== '-1') {

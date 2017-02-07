@@ -23,14 +23,22 @@ export class MainComponent {
   }
 
 
-  public save(item: any) {
-    item.editMode = false;
-    if(item.$key){
-      this.firebase.updateKindergarden(item);
+  public save(kindergarden: any) {
+    this.fixUndefinedFields(kindergarden);
+    kindergarden.editMode = false;
+    if(kindergarden.$key){
+      this.firebase.updateKindergarden(kindergarden);
     }
     else {
-      this.firebase.addKindergarden(item);
+      this.firebase.addKindergarden(kindergarden);
     }
+  }
+
+  private fixUndefinedFields(kindergarden: any) {
+    if (kindergarden.simSerialNumber === undefined)
+      kindergarden.simSerialNumber = '';
+    if (kindergarden.phone === undefined)
+      kindergarden.phone = '';
   }
 
   public edit(item: any, event: any) {
@@ -55,7 +63,7 @@ export class MainComponent {
   }
 
   public add() {
-    this.kindergardens.push({name: 'new',editMode:true});
+    this.kindergardens.push({name: 'new',editMode:true,phone:'',simSerialNumber:''});
   }
 
   public getKindergardens() {
