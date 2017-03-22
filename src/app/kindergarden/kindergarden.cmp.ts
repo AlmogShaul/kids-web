@@ -1,9 +1,6 @@
 import {Component, ChangeDetectorRef, NgZone} from '@angular/core';
-import {AngularFire, FirebaseListObservable} from "angularfire2";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FirebaseService} from "../services/firebase.service";
-import {Observable} from "rxjs/Observable";
-import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
   selector: 'kindergarden',
@@ -29,6 +26,8 @@ export class KindergardenComponent {
               if (c) {
                 this.zone.run(() => {
                   this.kindergarden = this.firebase.getKindergardens().filter((kg) => kg.$key === kindergardenId)[0];
+                  if(!this.kindergarden.simSerialNumber) this.kindergarden.simSerialNumber='';
+                  if(!this.kindergarden.phone) this.kindergarden.phone='';
                   this.getKindergardenKids();
                   this.getReminderTime();
                 });
@@ -54,6 +53,10 @@ export class KindergardenComponent {
     this.firebase.updateKid(_kid);
   }
 
+  public removeConfimation(_kid:any){
+    _kid.absentConfirmed = false;
+    this.firebase.updateKid(_kid);
+  }
   public editKid(kidId: string,kgId:any) {
     this.router.navigateByUrl('kid/' + kidId + '/' + kgId);
   }

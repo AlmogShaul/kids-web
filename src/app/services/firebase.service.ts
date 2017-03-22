@@ -2,6 +2,8 @@ import {AngularFire, FirebaseListObservable, FirebaseObjectObservable, FirebaseA
 import {Injectable, Inject} from "@angular/core";
 import {Observable, Subject, BehaviorSubject} from "rxjs";
 import {FirebaseOperation} from "angularfire2/database";
+import {MdDialog} from "@angular/material";
+import {ConfirmationCmp} from "../confirmation.cmp";
 
 @Injectable()
 export class FirebaseService {
@@ -26,18 +28,18 @@ export class FirebaseService {
     });
   }
 
-  public refresh(){
+  public refresh() {
     this.init();
   }
 
-  constructor(private firebase: AngularFire,@Inject(FirebaseApp) private firebaseApp: any) {
+  constructor(private dialog: MdDialog, private firebase: AngularFire, @Inject(FirebaseApp) private firebaseApp: any) {
     this.kidsObservable = this.firebase.database.list('/kids');
     this.kindergardenObservable = this.firebase.database.list('/kindergardens');
     this.settingsObservable = this.firebase.database.object('/settings');
     this.init();
   }
 
-  public getSettingsObservable(){
+  public getSettingsObservable() {
     return this.settingsObservable;
   }
 
@@ -49,16 +51,16 @@ export class FirebaseService {
     return this.kids;
   }
 
-  public addKid(kid: any,kindergardenId:string) :Promise<void>{
-    return new Promise((res,reject)=>{
+  public addKid(kid: any, kindergardenId: string): Promise<void> {
+    return new Promise((res, reject) => {
 
       kid.image = '';
-      this.kidsObservable.push(kid).then((resolve)=>{
+      this.kidsObservable.push(kid).then((resolve) => {
         kid.$key = resolve.key;
         let data = this.getKindergarden(kindergardenId).kids;
-        if(!data) data = {};
+        if (!data) data = {};
         data[kid.$key] = true;
-        this.kindergardenObservable.update(kindergardenId,{kids:data}).then(()=>{
+        this.kindergardenObservable.update(kindergardenId, {kids: data}).then(() => {
           res();
         });
 
@@ -67,11 +69,12 @@ export class FirebaseService {
 
   }
 
-  public updateKid(kid: any) :firebase.Promise<void> {
-    let data : any = {};
+  public updateKid(kid: any): firebase.Promise<void> {
+    let data: any = {};
     data.name = kid.name;
     data.arrived = kid.arrived;
     data.father = kid.father;
+    data.absentConfirmed = kid.absentConfirmed;
     data.mother = kid.mother;
     data.fatherPhone = kid.fatherPhone;
     data.motherPhone = kid.motherPhone;
@@ -104,16 +107,18 @@ export class FirebaseService {
     return _kindergarden;
 
   }
+
   saveKidPic(byteArray, fileName) {
     var storageRef = this.firebaseApp.storage().ref();
     var mountainsRef = storageRef.child(fileName);
-    mountainsRef.put(byteArray);
+    let uploadTask = mountainsRef.put(byteArray);
+
   };
 
-  getKidPic(kid:any){
+  getKidPic(kid: any) {
     var storageRef = this.firebaseApp.storage().ref();
     var mountainsRef = storageRef.child(kid.$key + '.png');
-    mountainsRef.getDownloadURL().then( (url) => {
+    mountainsRef.getDownloadURL().then((url) => {
       kid.image = url;
       console.log(kid.name + " image:  " + kid.image);
     }).catch((error) => {
@@ -121,18 +126,29 @@ export class FirebaseService {
         console.log(kid.name + 'error: ' + error.message);
     });
   }
+
   addKindergarden(item: any) {
-    this.kindergardenObservable.push({name:item.name});
+    this.kindergardenObservable.push({name: item.name});
   }
 
-  updateKindergarden(item:any){
-    this.kindergardenObservable.update(item.$key,{phone:item.phone,name:item.name,simSerialNumber:item.simSerialNumber});
+  updateKindergarden(item: any) {
+
+    this.kindergardenObservable.update(item.$key, {
+      phone: item.phone,
+      name: item.name,
+      simSerialNumber: item.simSerialNumber
+    });
   }
 
-  removeKidFromKindergarden(kidId:string,kindergardenId:string){
-    let kids = this.getKindergarden(kindergardenId).kids;
-    delete kids[kidId];
-    this.kindergardenObservable.update(kindergardenId,{kids : kids});
+  removeKidFromKindergarden(kidId: string, kindergardenId: string) {
+    let dialog = this.dialog.open(ConfirmationCmp);
+    dialog.afterClosed().subscribe(result => {
+        if (!result) return;
+        let kids = this.getKindergarden(kindergardenId).kids;
+        delete kids[kidId];
+        this.kindergardenObservable.update(kindergardenId, {kids: kids});
+      }
+    );
   }
 
   updateSettings(settings: any) {

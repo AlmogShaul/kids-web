@@ -19,8 +19,9 @@
   <div class="kids-list">
     <div class="list-item" *ngFor="let item of kids" >
     <div class="arrived-indicator">
-      <div *ngIf="!item.arrived" (click)="setArrived(item)" style="background-color: gray">  </div>
+      <div *ngIf="!item.arrived && !item.absentConfirmed" (click)="setArrived(item)" style="background-color: gray">  </div>
       <div *ngIf="item.arrived" (click)="setNotArrived(item)" style="background-color: #11BF00">  </div>
+      <div *ngIf="!item.arrived && item.absentConfirmed" (click)="removeConfimation(item)" style="background-color: #eeee3a">  </div>
     </div>
     <img class="kid_img" src="{{item.image}}">
     <h2>{{item.name}}</h2>

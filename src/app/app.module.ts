@@ -12,6 +12,7 @@ import {AppComponent} from "./app.cmp";
 import {FirebaseService} from "./services/firebase.service";
 import {KindergardenComponent} from "./kindergarden/kindergarden.cmp";
 import {SettingsComponent} from "./setttings/settings-component";
+import {ConfirmationCmp} from "./confirmation.cmp";
 
 // Must export the config
 export const firebaseConfig = {
@@ -31,11 +32,12 @@ export const firebaseConfig = {
     FormsModule,
     AngularFireModule.initializeApp(firebaseConfig)
   ],
+  entryComponents:[ConfirmationCmp],
   providers:[
     FirebaseService,
     {provide: LocationStrategy, useClass: HashLocationStrategy},
   ],
-  declarations: [ AppComponent,MainComponent ,SettingsComponent, KidComponent, KindergardenComponent],
+  declarations: [ ConfirmationCmp,AppComponent,MainComponent ,SettingsComponent, KidComponent, KindergardenComponent],
   bootstrap: [ AppComponent ]
 })
 export class AppModule {}

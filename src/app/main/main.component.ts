@@ -3,6 +3,8 @@ import {AngularFire, FirebaseListObservable} from "angularfire2";
 import {FirebaseService} from "../services/firebase.service";
 import {Router} from "@angular/router";
 import set = Reflect.set;
+import {MdDialog} from "@angular/material";
+import {ConfirmationCmp} from "../confirmation.cmp";
 
 @Component({
   selector: 'app-root',
@@ -15,7 +17,7 @@ export class MainComponent {
   kindergardens: any = [];
   editMode: boolean;
 
-  constructor(private firebase: FirebaseService, private router: Router, private zone: NgZone) {
+  constructor(private dialog: MdDialog,private firebase: FirebaseService, private router: Router, private zone: NgZone) {
   }
 
   public settings(){
@@ -48,7 +50,13 @@ export class MainComponent {
 
   public delete(item: any, event: any) {
     event.stopPropagation();
-    this.firebase.kindergardenObservable.remove(item);
+
+    let dialog = this.dialog.open(ConfirmationCmp);
+    dialog.afterClosed().subscribe(result => {
+      if(!result) return;
+      this.firebase.kindergardenObservable.remove(item);
+    });
+
   }
 
   ngOnInit() {

@@ -24,6 +24,8 @@ export class SettingsComponent{
   public getSettings(){
     this.firebase.getSettingsObservable().subscribe((result:any)=>{
       this.settings.notifyMessage = result.notifyMessage;
+      this.settings.notificationPeriod= result.notificationPeriod;
+      this.settings.clearEntrances= result.clearEntrances;
       this.settings.debugMode = result.debugMode == "true" ? true : false;
       this.settings.restart = result.restart == "true" ? true : false;
       this.settings.stopSMS = result.stopSMS== "true" ? true : false;
@@ -40,6 +42,8 @@ export class SettingsComponent{
     return {debugMode:this.settings.debugMode.toString(),
             restart:this.settings.restart.toString(),
             notifyMessage:this.settings.notifyMessage,
+            notificationPeriod:this.settings.notificationPeriod,
+            clearEntrances:this.settings.clearEntrances,
             holidays:this.settings.holidays.join(';'),
             congratsFiles:this.settings.congratsFiles.join(';'),
             stopSMS:this.settings.stopSMS.toString()};
