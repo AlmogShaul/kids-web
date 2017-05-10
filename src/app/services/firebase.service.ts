@@ -15,17 +15,20 @@ export class FirebaseService {
   completed: BehaviorSubject<any> = new BehaviorSubject(null);
 
   public init() {
+    this.uploadKidPicFinised = new Subject<void>();
     this.kidsObservable.subscribe((kids) => {
       this.kids = kids;
-      this.kids.forEach((k) => {
-        this.getKidPic(k);
-        k = Object.assign(k, k);
-      });
       this.kindergardenObservable.subscribe((kindergardens) => {
         this.kindergardens = kindergardens;
         this.completed.next(true);
       });
     });
+
+
+  }
+
+  public getKidsObs(){
+    return this.kidsObservable;
   }
 
   public refresh() {
@@ -108,23 +111,42 @@ export class FirebaseService {
 
   }
 
-  saveKidPic(byteArray, fileName) {
-    var storageRef = this.firebaseApp.storage().ref();
-    var mountainsRef = storageRef.child(fileName);
-    let uploadTask = mountainsRef.put(byteArray);
+  saveKidPic(kid,byteArray, fileName) : Promise<any> {
+    return new Promise<any>((res1,err1)=> {
+      var storageRef = this.firebaseApp.storage().ref();
+      var mountainsRef = storageRef.child(fileName);
+      let uploadTask = mountainsRef.put(byteArray);
+      uploadTask.then(f=>{
+        this.getKidPic(kid).then((res)=>{
+          kid.image = res;
+          res1(kid);
+        });
+        console.log('upload finished')
+        this.uploadKidPicFinised.next();
+      },r=>{
+        console.log('upload rejected')
+      })
+    });
 
   };
 
-  getKidPic(kid: any) {
-    var storageRef = this.firebaseApp.storage().ref();
-    var mountainsRef = storageRef.child(kid.$key + '.png');
-    mountainsRef.getDownloadURL().then((url) => {
-      kid.image = url;
-      console.log(kid.name + " image:  " + kid.image);
-    }).catch((error) => {
-      if (error)
-        console.log(kid.name + 'error: ' + error.message);
+  uploadKidPicFinised : Subject<void> ;
+
+  getKidPic(kid: any) : Promise<any> {
+    return new Promise<any>((res,err)=>{
+      if(kid.image) return;
+      var storageRef = this.firebaseApp.storage().ref();
+      var mountainsRef = storageRef.child(kid.$key + '.png');
+      mountainsRef.getDownloadURL().then((url) => {
+        res(url);
+        console.log(kid.name + " image:  " + kid.image);
+      }).catch((error) => {
+        if (error)
+          console.log(kid.name + 'error: ' + error.message);
+      });
+
     });
+
   }
 
   addKindergarden(item: any) {

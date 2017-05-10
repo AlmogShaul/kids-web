@@ -50,14 +50,25 @@ export class KidComponent {
   };
 
   private save(){
-    if(this.kid.$key)
+    if(this.kid.$key) {
+      if(this.byteArrayOfSelectedPic) {
+        this.firebaseService.saveKidPic(this.kid, this.byteArrayOfSelectedPic, this.kid.$key + '.png').then(res => {
+          this.kid.image = res;
+        });
+      }
       this.firebaseService.updateKid(this.kid).then(()=>{
-        this.firebaseService.saveKidPic(this.byteArrayOfSelectedPic, this.kid.$key + '.png');
       });
+    }
     else {
       this.kid.arrived = false;
       this.firebaseService.addKid(this.kid,this.kindergardenId).then(()=>{
-        this.firebaseService.saveKidPic(this.byteArrayOfSelectedPic, this.kid.$key + '.png');
+        if(this.byteArrayOfSelectedPic) {
+          this.firebaseService.saveKidPic(this.kid, this.byteArrayOfSelectedPic, this.kid.$key + '.png').then(res => {
+            this.kid.image = res;
+          });
+        }
+        this.firebaseService.updateKid(this.kid).then(()=>{
+        });
       });
     }
     this.location.back();
