@@ -27,7 +27,7 @@ export class FirebaseService {
 
   }
 
-  public getKidsObs(){
+  public getKidsObs() {
     return this.kidsObservable;
   }
 
@@ -111,30 +111,56 @@ export class FirebaseService {
 
   }
 
-  saveKidPic(kid,byteArray, fileName) : Promise<any> {
-    return new Promise<any>((res1,err1)=> {
-      var storageRef = this.firebaseApp.storage().ref();
-      var mountainsRef = storageRef.child(fileName);
-      let uploadTask = mountainsRef.put(byteArray);
-      uploadTask.then(f=>{
-        this.getKidPic(kid).then((res)=>{
-          kid.image = res;
-          res1(kid);
+  saveKidPic(kid, byteArray, fileName): Promise<any> {
+
+    return new Promise<any>((res1, err1) => {
+      var uInt8Array = byteArray;
+      var i = uInt8Array.length;
+      var binaryString = [i];
+      while (i--) {
+        binaryString[i] = String.fromCharCode(uInt8Array[i]);
+      }
+      var data = binaryString.join('');
+
+      var base64 = window.btoa(data);
+      var img = new Image();
+      img.src = "data:image/png;base64," + base64;
+      img.onload = () => {
+        let mainCanvas = document.createElement("canvas");
+        mainCanvas.width = 200;
+        mainCanvas.height = 200;
+        var ctx = mainCanvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, mainCanvas.width, mainCanvas.height);
+        let resizedImage = mainCanvas.toBlob((data)=>{
+
+          var storageRef = this.firebaseApp.storage().ref();
+          var mountainsRef = storageRef.child(fileName);
+          let uploadTask = mountainsRef.put(data);
+          uploadTask.then(f => {
+            this.getKidPic(kid).then((res) => {
+              kid.image = res;
+              res1(kid);
+            });
+            console.log('upload finished')
+            this.uploadKidPicFinised.next();
+          }, r => {
+            console.log('upload rejected')
+          })
+
         });
-        console.log('upload finished')
-        this.uploadKidPicFinised.next();
-      },r=>{
-        console.log('upload rejected')
-      })
+
+
+
+      }
     });
 
   };
 
-  uploadKidPicFinised : Subject<void> ;
+  uploadKidPicFinised: Subject<void>;
 
-  getKidPic(kid: any) : Promise<any> {
-    return new Promise<any>((res,err)=>{
-      if(kid.image) return;
+  getKidPic(kid: any): Promise<any> {
+    return new Promise<any>((res, err) => {
+      if (kid.image) return;
       var storageRef = this.firebaseApp.storage().ref();
       var mountainsRef = storageRef.child(kid.$key + '.png');
       mountainsRef.getDownloadURL().then((url) => {
