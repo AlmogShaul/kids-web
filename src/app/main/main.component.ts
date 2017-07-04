@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import set = Reflect.set;
 import {MdDialog} from "@angular/material";
 import {ConfirmationCmp} from "../confirmation.cmp";
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'app-root',
@@ -12,12 +13,12 @@ import {ConfirmationCmp} from "../confirmation.cmp";
   styleUrls: ['./main.component.css']
 })
 export class MainComponent {
-  title = 'Kindergarden Anafa';
+  title = 'Kindergarden...';
   kids: any[] = [];
   kindergardens: any = [];
   editMode: boolean;
 
-  constructor(private dialog: MdDialog,private firebase: FirebaseService, private router: Router, private zone: NgZone) {
+  constructor(private auth:AuthService,private dialog: MdDialog,private firebase: FirebaseService, private router: Router, private zone: NgZone) {
   }
 
   public settings(){
@@ -64,10 +65,11 @@ export class MainComponent {
     this.firebase.completed.subscribe((c) => {
       if (c) {
         this.zone.run(() => {
-          this.kindergardens = this.firebase.kindergardens;
+          this.kindergardens = this.firebase.kindergardens.filter(k=> k.group == undefined || k.group == this.auth.userProfile.nickname);
         });
       }
     });
+
   }
 
   public add() {
@@ -76,6 +78,7 @@ export class MainComponent {
 
   public getKindergardens() {
     this.kindergardens = this.firebase.getKindergardens();
+
   }
 
 

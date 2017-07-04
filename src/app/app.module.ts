@@ -13,6 +13,8 @@ import {FirebaseService} from "./services/firebase.service";
 import {KindergardenComponent} from "./kindergarden/kindergarden.cmp";
 import {SettingsComponent} from "./setttings/settings-component";
 import {ConfirmationCmp} from "./confirmation.cmp";
+import {AuthService} from "./services/auth.service";
+import {NotAuthorizedComponent} from "./not_authorized.cmp";
 
 // Must export the config
 export const firebaseConfig = {
@@ -34,10 +36,11 @@ export const firebaseConfig = {
   ],
   entryComponents:[ConfirmationCmp],
   providers:[
+    AuthService,
     FirebaseService,
     {provide: LocationStrategy, useClass: HashLocationStrategy},
   ],
-  declarations: [ ConfirmationCmp,AppComponent,MainComponent ,SettingsComponent, KidComponent, KindergardenComponent],
+  declarations: [ ConfirmationCmp,AppComponent,MainComponent ,SettingsComponent, KidComponent, KindergardenComponent,NotAuthorizedComponent],
   bootstrap: [ AppComponent ]
 })
 export class AppModule {}
