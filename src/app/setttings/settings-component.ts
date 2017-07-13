@@ -23,6 +23,8 @@ export class SettingsComponent{
 
   public getSettings(){
     this.firebase.getSettingsObservable().subscribe((result:any)=>{
+      this.settings.darkScreen = result.darkScreen;
+      this.settings.workingHours = result.workingHours;
       this.settings.notifyMessage = result.notifyMessage;
       this.settings.notificationPeriod= result.notificationPeriod;
       this.settings.clearEntrances= result.clearEntrances;
@@ -46,7 +48,9 @@ export class SettingsComponent{
             clearEntrances:this.settings.clearEntrances,
             holidays:this.settings.holidays.join(';'),
             congratsFiles:this.settings.congratsFiles.join(';'),
-            stopSMS:this.settings.stopSMS.toString()};
+            stopSMS:this.settings.stopSMS.toString(),
+            workingHours:this.settings.workingHours.toString(),
+            darkScreen:this.settings.darkScreen.toString()};
 
   }
 

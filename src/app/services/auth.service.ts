@@ -14,7 +14,7 @@ export class AuthService {
     domain: 'bsavesarvice.auth0.com',
     responseType: 'token id_token',
     audience: 'https://bsavesarvice.auth0.com/userinfo',
-    redirectUri: 'http://localhost:4200/main',
+    redirectUri: window.location.origin + '/main',
     scope: 'openid profile user_metadata app_metadata'
   });
 

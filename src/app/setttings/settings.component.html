@@ -14,6 +14,18 @@
 
   <div>
     <md-input-container>
+      <input md-input placeholder="Working Hours" [(ngModel)]="settings.workingHours" >
+    </md-input-container>
+  </div>
+
+  <div>
+    <md-input-container>
+      <input md-input placeholder="Dark Screen" [(ngModel)]="settings.darkScreen" >
+    </md-input-container>
+  </div>
+
+  <div>
+    <md-input-container>
       <input md-input placeholder="Clear entrance hour (24)" [(ngModel)]="settings.clearEntrances" >
     </md-input-container>
   </div>
