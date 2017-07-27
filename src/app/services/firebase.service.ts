@@ -27,6 +27,7 @@ export class FirebaseService {
 
   }
 
+
   public getKidsObs() {
     return this.kidsObservable;
   }
@@ -82,6 +83,8 @@ export class FirebaseService {
     data.fatherPhone = kid.fatherPhone;
     data.motherPhone = kid.motherPhone;
     data.reminderTime = kid.reminderTime;
+    data.vacationPeriodFrom = kid.vacationPeriodFrom;
+    data.vacationPeriodTo = kid.vacationPeriodTo;
     return this.kidsObservable.update(kid.$key, data);
   }
 
@@ -184,6 +187,8 @@ export class FirebaseService {
     this.kindergardenObservable.update(item.$key, {
       phone: item.phone,
       name: item.name,
+      group : item.group,
+      info:item.info,
       simSerialNumber: item.simSerialNumber
     });
   }

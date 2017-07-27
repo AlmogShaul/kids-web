@@ -29,7 +29,7 @@ export class KidComponent {
         });
       }
       else{
-        this.kid = {name:'',father:'',mother:'',absentConfirmed:false,fatherPhone:'',motherPhone:'',arrived:false,reminderTime:'10:00'};
+        this.kid = {name:'',father:'',mother:'',absentConfirmed:false,fatherPhone:'',motherPhone:'',arrived:false,reminderTime:'10:00',vacationPeriodFrom : null , vacationPeriodTo : null};
       }
 
     });

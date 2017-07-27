@@ -5,7 +5,7 @@ import {FirebaseService} from "../services/firebase.service";
 @Component({
   selector: 'kindergarden',
   templateUrl: './kindergarden.component.html',
-  styleUrls: ['./kindergarden.component.css']
+  styleUrls: ['./kindergarden.component.less']
 })
 export class KindergardenComponent {
 
@@ -28,9 +28,11 @@ export class KindergardenComponent {
           this.firebase.completed.subscribe((c) => {
             if (c) {
               this.zone.run(() => {
-                this.kindergarden = this.firebase.getKindergardens().filter((kg) => kg.$key === kindergardenId)[0];
+                this.kindergarden = this.firebase.getKindergardens().find((kg) => kg.group  ==kindergardenId || kg.$key === kindergardenId);
                 if (!this.kindergarden.simSerialNumber) this.kindergarden.simSerialNumber = '';
                 if (!this.kindergarden.phone) this.kindergarden.phone = '';
+                if (!this.kindergarden.info) this.kindergarden.info = '';
+                if (!this.kindergarden.group) this.kindergarden.group = '';
                 this.getKindergardenKids();
                 this.getReminderTime();
               });
@@ -83,6 +85,12 @@ export class KindergardenComponent {
       this.kids = k.filter(kid => {
         if (kidIds[kid.$key]) return true;
         return false;
+      }).sort((kidA,kidB) => {
+        if (kidA.name < kidB.name) {
+          return -1;
+        }else{
+          return 1;
+        }
       });
 
       this.kids.forEach(k=>{

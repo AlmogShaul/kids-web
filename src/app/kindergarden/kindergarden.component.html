@@ -2,32 +2,36 @@
   <div class="header">
     <h1>{{kindergarden?.name}}</h1>
   </div>
-  <div class="phone-setting">
+  <div class="inputs">
     <input type="tel" placeholder="Telephone No." [(ngModel)]="kindergarden.phone">
-    <button (click)="updateKindergarden()">Save</button>
-  </div>
-  <div class="phone-setting">
     <input type="text" placeholder="Sim Serial No." [(ngModel)]="kindergarden.simSerialNumber">
+    <input type="text" placeholder="group" [(ngModel)]="kindergarden.group">
+    <input type="text" placeholder="info" [(ngModel)]="kindergarden.info">
     <button (click)="updateKindergarden()">Save</button>
   </div>
-  <button md-mini-fab color="primary" (click)="addKid(kindergarden.$key)">
+
+
+
+  <button class="add-btn" md-mini-fab color="primary" (click)="addKid(kindergarden.$key)">
     <md-icon class="md-24">
       <span style="color: white; position: relative;bottom: 5px;">+</span>
     </md-icon>
   </button>
 
   <div class="kids-list">
-    <div class="list-item" *ngFor="let item of kids" >
-    <div class="arrived-indicator">
-      <div *ngIf="!item.arrived && !item.absentConfirmed" (click)="setArrived(item)" style="background-color: gray">  </div>
-      <div *ngIf="item.arrived" (click)="setNotArrived(item)" style="background-color: #11BF00">  </div>
-      <div *ngIf="!item.arrived && item.absentConfirmed" (click)="removeConfimation(item)" style="background-color: #eeee3a">  </div>
+    <div class="list-item" *ngFor="let item of kids">
+      <div class="arrived-indicator">
+        <div *ngIf="!item.arrived && !item.absentConfirmed" (click)="setArrived(item)"
+             style="background-color: gray"></div>
+        <div *ngIf="item.arrived" (click)="setNotArrived(item)" style="background-color: #11BF00"></div>
+        <div *ngIf="!item.arrived && item.absentConfirmed" (click)="removeConfimation(item)"
+             style="background-color: #eeee3a"></div>
+      </div>
+      <img class="kid_img" src="{{item.image}}">
+      <h2>{{item.name}}</h2>
+      <button class="kinder-btn" (click)="editKid(item.$key,kindergarden.$key)">ערוך</button>
+      <button class="kinder-btn" (click)="removeKid(item.$key,kindergarden.$key)">הסר</button>
     </div>
-    <img class="kid_img" src="{{item.image}}">
-    <h2>{{item.name}}</h2>
-    <button class="kinder-btn" (click)="editKid(item.$key,kindergarden.$key)">ערוך</button>
-    <button class="kinder-btn" (click)="removeKid(item.$key,kindergarden.$key)">הסר</button>
-  </div>
   </div>
   <div class="footer">
     <h3>Time for reminders: {{reminderTime }}</h3>

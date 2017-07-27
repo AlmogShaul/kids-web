@@ -28,7 +28,15 @@
   </div>
   <div class="section">
     <p>תזכורת</p>
-    <input type="text" [(ngModel)]="kid&&kid.reminderTime">
+    <input type="text" placeholder="hh:mm"[(ngModel)]="kid&&kid.reminderTime">
+  </div>
+  <div class="section">
+    <p>תחילת חופשה</p>
+    <input type="text" placeholder="dd/MM/yyyy" [(ngModel)]="kid&&kid.vacationPeriodFrom">
+  </div>
+  <div class="section">
+    <p>סיום חופשה</p>
+    <input type="text" placeholder="dd/MM/yyyy" [(ngModel)]="kid&&kid.vacationPeriodTo">
   </div>
   <button class="save-btn" md-raised-button color="primary" (click)="save()">שמור</button>
 

@@ -13,10 +13,9 @@ export class AppComponent implements OnInit {
       this.authenticated = auth.isAuthenticated();
       if(this.authenticated){
         this.auth.getProfile((err,res)=>{
-          if(!res) router.navigate(['/not-authorized']);
-          else if(res.nickname == "bsaveservice"){
-            router.navigate(['/main']);
-          }
+          if(!res) router.navigate(['not-authorized']);
+            else router.navigate(['main']);
+
         });
 
       }else {

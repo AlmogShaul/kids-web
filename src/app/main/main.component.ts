@@ -7,18 +7,21 @@ import {MdDialog} from "@angular/material";
 import {ConfirmationCmp} from "../confirmation.cmp";
 import {AuthService} from "../services/auth.service";
 
+var  USERS:string[] = ['bsaveservice','shaul.almog','ronengelman1','sharli19'];
 @Component({
   selector: 'app-root',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.css']
+  styleUrls: ['./main.component.less']
 })
 export class MainComponent {
   title = 'Kindergarden...';
   kids: any[] = [];
   kindergardens: any = [];
   editMode: boolean;
+  loadingCompleted : boolean;
 
   constructor(private auth:AuthService,private dialog: MdDialog,private firebase: FirebaseService, private router: Router, private zone: NgZone) {
+
   }
 
   public settings(){
@@ -64,8 +67,15 @@ export class MainComponent {
 
     this.firebase.completed.subscribe((c) => {
       if (c) {
+        this.loadingCompleted = true;
         this.zone.run(() => {
-          this.kindergardens = this.firebase.kindergardens.filter(k=> k.group == undefined || k.group == this.auth.userProfile.nickname);
+          if(USERS.find(x=> x == this.auth.userProfile.nickname)){
+            this.kindergardens = this.firebase.kindergardens;
+          }
+          else {
+            this.kindergardens = this.firebase.kindergardens.filter(k=> k.group == this.auth.userProfile.nickname);
+          }
+
         });
       }
     });

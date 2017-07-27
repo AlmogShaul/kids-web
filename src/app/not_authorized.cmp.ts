@@ -1,12 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Params} from "@angular/router";
 
 @Component({
   selector: 'not-authorized',
-  template:`<div> NOT AUTHORIZED</div>`
+  template: `
+      <h1> {{user}}  NOT AUTHORIZED</h1>
+`
 })
 export class NotAuthorizedComponent implements OnInit {
-  constructor() { }
+  private user: any;
 
-  ngOnInit() { }
+  constructor(private activatedRoute: ActivatedRoute) {
+  }
+
+  ngOnInit() {
+    // subscribe to router event
+    this.activatedRoute.queryParams.subscribe((params: Params) => {
+
+      this.user = params['user'];
+
+    });
+  }
 
 }

@@ -2,30 +2,36 @@
   <div class="header">
     <h1>גנים</h1>
     <div class="settings" (click)="settings()">
-      <img src="../../icons/settings.png" >
+      <img src="../../icons/settings.png">
     </div>
   </div>
 
-  <button md-mini-fab  color="primary"  (click)="add()">
+  <button md-mini-fab color="primary" (click)="add()">
     <md-icon class="md-24">
       <span style="color: white; position: relative;bottom: 5px;">+</span>
     </md-icon>
   </button>
+  <div *ngIf="loadingCompleted">
+    <div *ngIf="kindergardens">
+      <div class="list-item" *ngFor="let item of kindergardens">
 
-  <div class="list-item" *ngFor="let item of kindergardens" >
+        <div *ngIf="!item.editMode" class="view" (click)="selectKindergarden(item)">
+          <h3>{{item.name}}</h3>
+          <div>
+            <span class="kid-btn" (click)="edit(item,$event)">edit</span>
+            <span class="kid-btn" (click)="delete(item,$event)">delete</span>
+          </div>
+        </div>
 
-    <div *ngIf="!item.editMode" class="view" (click)="selectKindergarden(item)" >
-      <h3 >{{item.name}}</h3>
-      <div >
-        <span class="kid-btn" (click)="edit(item,$event)" >edit</span>
-        <span class="kid-btn" (click)="delete(item,$event)" >delete</span>
+        <div *ngIf="item.editMode" class="edit">
+          <input type="text" [(ngModel)]="item.name">
+          <div class="kid-btn" (click)="save(item)">save</div>
+        </div>
       </div>
     </div>
-
-    <div *ngIf="item.editMode" class="edit">
-      <input type="text" [(ngModel)]="item.name" >
-      <div class="kid-btn" (click)="save(item)">save</div>
+    <div class="no-data" *ngIf="kindergardens.length == 0">
+      <h1>לא נמצאו גנים למשתמש הנוכחי</h1>
+      <button (click)="login()">התחבר</button>
     </div>
   </div>
-
 </div>
