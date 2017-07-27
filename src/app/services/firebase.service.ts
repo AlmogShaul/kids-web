@@ -13,6 +13,7 @@ export class FirebaseService {
   settingsObservable: FirebaseObjectObservable<any[]>;
   kindergardenObservable: FirebaseListObservable<any[]>;
   completed: BehaviorSubject<any> = new BehaviorSubject(null);
+  admin: boolean = false;
 
   public init() {
     this.uploadKidPicFinised = new Subject<void>();

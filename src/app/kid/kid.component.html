@@ -38,7 +38,7 @@
     <p>סיום חופשה</p>
     <input type="text" placeholder="dd/MM/yyyy" [(ngModel)]="kid&&kid.vacationPeriodTo">
   </div>
-  <button class="save-btn" md-raised-button color="primary" (click)="save()">שמור</button>
+  <button class="save-btn" md-raised-button color="primary" (click)="save()" *ngIf="firebase.admin">שמור</button>
 
 
 </div>

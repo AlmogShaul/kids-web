@@ -15,7 +15,7 @@ export class KidComponent {
   kidObservable:FirebaseListObservable<any[]>;
   private kindergardenId:any;
 
-  constructor(private firebaseService : FirebaseService,private route: ActivatedRoute, private zone: NgZone,private location: Location){
+  constructor(private firebase : FirebaseService,private route: ActivatedRoute, private zone: NgZone,private location: Location){
     this.kid = {};
   }
 
@@ -25,7 +25,7 @@ export class KidComponent {
       this.kindergardenId = params['kgId'];
       if(kidId !== '-1'){
         this.zone.run(() => {
-          this.kid = this.firebaseService.getKid(kidId);
+          this.kid = this.firebase.getKid(kidId);
         });
       }
       else{
@@ -52,22 +52,22 @@ export class KidComponent {
   private save(){
     if(this.kid.$key) {
       if(this.byteArrayOfSelectedPic) {
-        this.firebaseService.saveKidPic(this.kid, this.byteArrayOfSelectedPic, this.kid.$key + '.png').then(res => {
+        this.firebase.saveKidPic(this.kid, this.byteArrayOfSelectedPic, this.kid.$key + '.png').then(res => {
           this.kid.image = res;
         });
       }
-      this.firebaseService.updateKid(this.kid).then(()=>{
+      this.firebase.updateKid(this.kid).then(()=>{
       });
     }
     else {
       this.kid.arrived = false;
-      this.firebaseService.addKid(this.kid,this.kindergardenId).then(()=>{
+      this.firebase.addKid(this.kid,this.kindergardenId).then(()=>{
         if(this.byteArrayOfSelectedPic) {
-          this.firebaseService.saveKidPic(this.kid, this.byteArrayOfSelectedPic, this.kid.$key + '.png').then(res => {
+          this.firebase.saveKidPic(this.kid, this.byteArrayOfSelectedPic, this.kid.$key + '.png').then(res => {
             this.kid.image = res;
           });
         }
-        this.firebaseService.updateKid(this.kid).then(()=>{
+        this.firebase.updateKid(this.kid).then(()=>{
         });
       });
     }

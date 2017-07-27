@@ -71,8 +71,10 @@ export class MainComponent {
         this.zone.run(() => {
           if(USERS.find(x=> x == this.auth.userProfile.nickname)){
             this.kindergardens = this.firebase.kindergardens;
+            this.firebase.admin = true;
           }
           else {
+            this.firebase.admin = false;
             this.kindergardens = this.firebase.kindergardens.filter(k=> k.group == this.auth.userProfile.nickname);
           }
 
