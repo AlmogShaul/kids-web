@@ -20,6 +20,7 @@ export class FirebaseService {
     this.kidsObservable.subscribe((kids) => {
       this.kids = kids;
       this.kindergardenObservable.subscribe((kindergardens) => {
+        console.log('kindergardenObservable.subscribe');
         this.kindergardens = kindergardens;
         this.completed.next(true);
       });
@@ -28,6 +29,14 @@ export class FirebaseService {
 
   }
 
+
+  public getLogs(){
+    return this.firebase.database.list('/logs');
+  }
+
+  public deleteLogs(){
+    this.firebase.database.list('/logs').remove();
+  }
 
   public getKidsObs() {
     return this.kidsObservable;

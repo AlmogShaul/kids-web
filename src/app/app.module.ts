@@ -15,6 +15,7 @@ import {SettingsComponent} from "./setttings/settings-component";
 import {ConfirmationCmp} from "./confirmation.cmp";
 import {AuthService} from "./services/auth.service";
 import {NotAuthorizedComponent} from "./not_authorized.cmp";
+import {LogsComponent} from "./logs/logs.cmp";
 
 // Must export the config
 export const firebaseConfig = {
@@ -40,7 +41,7 @@ export const firebaseConfig = {
     FirebaseService,
     {provide: LocationStrategy, useClass: HashLocationStrategy},
   ],
-  declarations: [ ConfirmationCmp,AppComponent,MainComponent ,SettingsComponent, KidComponent, KindergardenComponent,NotAuthorizedComponent],
+  declarations: [ ConfirmationCmp,AppComponent,MainComponent,LogsComponent ,SettingsComponent, KidComponent, KindergardenComponent,NotAuthorizedComponent],
   bootstrap: [ AppComponent ]
 })
 export class AppModule {}

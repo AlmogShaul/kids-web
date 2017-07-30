@@ -1,0 +1,25 @@
+<div>
+
+  <div *ngIf="!logs">
+    Loading
+  </div>
+  <div *ngIf="logs">
+    <h3>{{filteredLogs?.length}} Messages</h3>
+    <input placeholder="Filter by Date" [(ngModel)]="dateFilter">
+    <button  md-raised-button color="primary" (click)="filter()">Filter</button>
+    <div class="logs-container">
+      <table class="logs-table">
+        <tr>
+          <th>Date</th>
+          <th>Message</th>
+        </tr>
+        <tr *ngFor="let log of filteredLogs">
+          <td>{{log?.$key}}</td>
+          <td>{{log?.$value}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <button  md-raised-button color="warn"  (click)="deleteLogs()">Delete All Logs</button>
+</div>
